@@ -1,6 +1,6 @@
 package Mediatheque;
 
-public class AboReference implements Abonne {
+public class AboReference implements Abonne, Runnable {
 	private static int cptNum = 1;
 	private int NumAb;
 	private String Nom;
@@ -11,6 +11,7 @@ public class AboReference implements Abonne {
 		this.NumAb = cptNum;
 		this.Nom = Nom;
 		this.Date = Date;
+		new Thread(this).start();
 	}
 	
 	@Override
@@ -36,5 +37,14 @@ public class AboReference implements Abonne {
 	
 	public boolean getMedia() {
 		return this.Mediatheque;
+	}
+
+	@Override
+	public void run() {
+		try {
+			
+		}catch (exception e) {
+			
+		}
 	}
 }
