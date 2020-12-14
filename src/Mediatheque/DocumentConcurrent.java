@@ -3,11 +3,12 @@ package Mediatheque;
 import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
 
-public class DocumentConcurrent implements Document {
+public class DocumentConcurrent extends DocumentAbstrait{
 	private Document d;
 	
-	public DocumentConcurrent (Document Doc) {
-		this.d = Doc;
+	public DocumentConcurrent (Document doc) {
+		super(doc.numero());
+		this.d = doc;
 	}
 
 	@Override
@@ -18,7 +19,14 @@ public class DocumentConcurrent implements Document {
 	@Override
 	public void reservationPour(Abonne ab) throws ReservationException {
 		synchronized (this) {
-			d.reservationPour(ab);
+			while(!estDispo()) {
+				try {
+					this.wait();					
+				}
+				catch (InterruptedException e){
+				}
+				d.reservationPour(ab);
+			}
 		}
 	}
 
@@ -30,8 +38,10 @@ public class DocumentConcurrent implements Document {
 
 	@Override
 	public void retour() {
-		// TODO Auto-generated method stub
-		
+		synchronized(this) {
+			d.retour();
+		}
+		this.notifyAll();
 	}
 
 

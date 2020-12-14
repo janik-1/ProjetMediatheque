@@ -13,6 +13,11 @@ public abstract class DocumentAbstrait implements Document {
 		this.Dispo=true;
 	}
 	
+	public DocumentAbstrait(int NumeroDoc) {
+		this.NumeroDoc= NumeroDoc;
+		this.Dispo=true;
+	}
+	
 	@Override
 	public int numero() {
 		return this.NumeroDoc;
