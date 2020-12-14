@@ -1,4 +1,5 @@
 package Mediatheque;
+import Exceptions.*;
 
 public class DVD extends DocumentAbstrait{
 	private boolean adulte;
@@ -21,7 +22,7 @@ public class DVD extends DocumentAbstrait{
 
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
-		
+		this.setEmprunteur(ab.getNumAb());
 	}
 
 	@Override

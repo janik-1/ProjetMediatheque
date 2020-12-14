@@ -22,4 +22,19 @@ public abstract class DocumentAbstrait implements Document {
 		return this.Titre;
 	}
 	
+	public void setEmprunteur(int numAb) {
+		this.Emprunteur= numAb;
+	}
+	
+	public boolean estDispo() {
+		return this.Dispo;
+	}
+	
+	public void setDispo() {
+		this.Dispo=true;
+	}
+	
+	public void setIndispo() {
+		this.Dispo=false;
+	}
 }

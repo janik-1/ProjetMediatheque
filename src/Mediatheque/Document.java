@@ -1,4 +1,5 @@
 package Mediatheque;
+import Exceptions.*;
 
 public interface Document {
 	int numero();
