@@ -32,16 +32,17 @@ public class DocumentConcurrent extends DocumentAbstrait{
 
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
-		// TODO Auto-generated method stub
-		
+		synchronized(this) {
+			d.empruntPar(ab);
+		}
 	}
 
 	@Override
 	public void retour() {
 		synchronized(this) {
 			d.retour();
+			this.notifyAll();
 		}
-		this.notifyAll();
 	}
 
 

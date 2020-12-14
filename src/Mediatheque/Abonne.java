@@ -1,8 +1,9 @@
 package Mediatheque;
 
 public interface Abonne {
-	int getNumAb();
-	String getNom();
-	String getDate();
+	public int getNumAb();
+	public String getNom();
+	public String getDate();
+	public void reserver(Document d);
 	
 }
