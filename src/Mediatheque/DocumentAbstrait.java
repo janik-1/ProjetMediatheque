@@ -26,6 +26,10 @@ public abstract class DocumentAbstrait implements Document {
 		this.Emprunteur= numAb;
 	}
 	
+	public int getEmprunteur() {
+		return this.Emprunteur;
+	}
+	
 	public boolean estDispo() {
 		return this.Dispo;
 	}

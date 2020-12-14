@@ -1,10 +1,17 @@
 package Mediatheque;
 
 public class AboReference implements Abonne {
+	private static int cptNum = 1;
 	private int NumAb;
 	private String Nom;
 	private String Date;
 	private boolean Mediatheque;
+	
+	public AboReference (String Nom, String Date) {
+		this.NumAb = cptNum;
+		this.Nom = Nom;
+		this.Date = Date;
+	}
 	
 	@Override
 	public int getNumAb() {

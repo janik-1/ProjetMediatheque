@@ -17,7 +17,7 @@ public class DVD extends DocumentAbstrait{
 	
 	@Override
 	public void reservationPour(Abonne ab) throws ReservationException {
-		
+		this.setIndispo();
 	}
 
 	@Override
@@ -27,7 +27,8 @@ public class DVD extends DocumentAbstrait{
 
 	@Override
 	public void retour() {
-		
+		this.setDispo();
+		this.setEmprunteur(0);
 	}
 	
 
