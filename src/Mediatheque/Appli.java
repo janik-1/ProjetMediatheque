@@ -3,6 +3,7 @@ package Mediatheque;
 public class Appli {
 	private final static int PORT = 3000;
 	public static void main(String[] args) throws Exception {
+		//du cours
 			List<Cours> lesCours = initCours();
 			ServiceCours.setLesCours(lesCours);
 			
