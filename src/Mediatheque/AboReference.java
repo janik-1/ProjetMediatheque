@@ -27,11 +27,11 @@ public class AboReference implements Abonne {
 	}
 	
 	public void ArriveMedia() {
-		this.Mediatheque =true;
+		this.Mediatheque = true;
 	}
 	
 	public void partMedia() {
-		this.Mediatheque=false;
+		this.Mediatheque = false;
 	}
 	
 	public boolean getMedia() {

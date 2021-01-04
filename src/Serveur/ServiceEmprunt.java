@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import Exceptions.EmpruntException;
 import Mediatheque.*;
 
 public class ServiceEmprunt extends Service {
@@ -24,25 +25,20 @@ public class ServiceEmprunt extends Service {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void run() {
-		synchronized (this) {
-			System.out.println("Voici la liste des livres disponibles : ");
-			m.getLivresDisponibles();
-			System.out.println("Veillez saisir votre numero d'abonne :");
-			
-			Scanner sc = new Scanner(System.in);
-			numAbonne = sc.nextInt();
-			
-			System.out.println("Veillez saisir le livre que vous voulez emprunter");
-			
-			Scanner scLivre = new Scanner(System.in);
-			numLivre = scLivre.nextInt();
-			try {
-				m.getLivreDispo(numLivre).emprunter(m.getAbo(numAbonne));
-			} catch (EmpruntException e) {
-				e.printStackTrace();
-			}
-		}
+		System.out.println("Voici la liste des livres disponibles : ");
+		m.getLivresDisponibles();
+		System.out.println("Veillez saisir votre numero d'abonne :");			
+		Scanner sc = new Scanner(System.in);
+		numAbonne = sc.nextInt();			
+		System.out.println("Veillez saisir le livre que vous voulez emprunter");			
+		Scanner scLivre = new Scanner(System.in);
+		numLivre = scLivre.nextInt();	
+		
+		try {
+			m.emprunter(numLivre, numAbonne);
+		} catch (EmpruntException e) {}
 	}
 
 	@Override
