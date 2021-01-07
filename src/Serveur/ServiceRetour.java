@@ -22,18 +22,18 @@ public class ServiceRetour extends Service {
 		this.nom = "localhost";
 	}
 
-	@Override
-	public void run() {		
-		write("Veillez saisir le numero du livre a retourner :");
-		
-		//Scanner scLivre = new Scanner(System.in);
-		numLivre = read();
-		try {
-			m.retourner(Integer.parseInt(numLivre));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//	@Override
+//	public void run() {		
+//		write("Veillez saisir le numero du livre a retourner :");
+//		
+//		//Scanner scLivre = new Scanner(System.in);
+//		numLivre = read();
+//		try {
+//			m.retourner(Integer.parseInt(numLivre));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		
 		
@@ -45,7 +45,7 @@ public class ServiceRetour extends Service {
 			} catch (RetourException e) {
 				e.printStackTrace();
 			}*/ // Sinon l'abonne a rendu le livre normalement sans reservation
-	}
+//	}
 
 	@Override
 	public String serviceName() {

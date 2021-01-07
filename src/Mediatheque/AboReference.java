@@ -40,7 +40,7 @@ public class AboReference implements Abonne {
 
 	@Override
 	public void reserver(Document d) {
-		d.reservationPour(this);
+		//d.reservationPour(this);
 	}
 	
 

@@ -9,7 +9,7 @@ public class Appli {
 		int Port;
 		//Scanner s = new Scanner();
 		//Port=s.nextLine();
-		Port=10;
+		Port=4000;
 		
 		new Thread(new AppliServeur(Port)).start();
 		System.out.println("Serveur lance sur le port " + Port);
