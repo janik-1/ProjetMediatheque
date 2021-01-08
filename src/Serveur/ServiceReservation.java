@@ -1,5 +1,6 @@
 package Serveur;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -8,7 +9,6 @@ import java.util.Timer;
 import Mediatheque.*;
 
 public class ServiceReservation extends Service {
-	private Mediatheque m;
 	private int num;
 	private int numAbonne;
 	private int PORT_RESERVATION;
@@ -16,9 +16,8 @@ public class ServiceReservation extends Service {
 	private String host = "localhost";
 	
 	public ServiceReservation(Mediatheque m, Socket accept) {
-		super(accept);
-		this.m = m;
-		this.PORT_RESERVATION = 2600;
+		super(accept,m);
+		this.PORT_RESERVATION = 3000;
 	}
 
 //	public void run() {
@@ -77,6 +76,12 @@ public class ServiceReservation extends Service {
 	@Override
 	public ServerSocket getServ() {
 		return socket_res;
+	}
+
+	@Override
+	public void exec() throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

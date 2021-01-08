@@ -10,8 +10,9 @@ public class AppliServeur implements Runnable {
 	private final static int PORT_RESERVATION = 3000, PORT_EMPRUNT = 4000, PORT_RETOUR = 5000;
 	private Mediatheque m;
 	
-	public AppliServeur(int port) throws IOException {
+	public AppliServeur(int port, Mediatheque m) throws IOException {
 		listen_socket = new ServerSocket(port);
+		this.m=m;
 	}
 	
 //	public void connection(String[] args) {
@@ -37,7 +38,7 @@ public class AppliServeur implements Runnable {
 	public void run() {
 		try {
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());
-			while (true)
+			while (true) {
 				if (listen_socket.getLocalPort()==PORT_RESERVATION) {
 					new Thread(new ServiceReservation(m, listen_socket.accept())).start();
 				}
@@ -48,9 +49,12 @@ public class AppliServeur implements Runnable {
 				else if (listen_socket.getLocalPort()==PORT_RETOUR) {
 					new Thread(new ServiceRetour(m, listen_socket.accept())).start();
 				}
+				break;
+			}
 		} catch (IOException e) {
 			try {
 				this.listen_socket.close();
+				System.out.println("erfhudcjnkz,erfuvfhedjz");
 			} catch (IOException e1) {
 			}
 			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());

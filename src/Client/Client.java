@@ -12,6 +12,7 @@ public class Client implements Runnable {
 	private String hostname;
 	private BufferedReader socketIn;
 	private PrintWriter socketOut;
+	private BufferedReader clavier;
 	
 	
 	
@@ -33,31 +34,34 @@ public class Client implements Runnable {
 			try {
 				this.socketIn = new BufferedReader (new InputStreamReader(socket.getInputStream ( )));
 				this.socketOut = new PrintWriter (socket.getOutputStream ( ), true);
-				BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));	
-				
+				this.clavier = new BufferedReader(new InputStreamReader(System.in));
 				while(true) {
 					if(this.socket.isClosed()) break;
-					String line = clavier.readLine();
-					this.socketOut.println(line);
-					line = this.socketIn.readLine();
-					System.out.println(line);
+					String line = socketIn.readLine();			
 					if(line == null) continue;
-					if(!line.isEmpty() && line.equals("end"))
-						this.end();
+					if(!line.isEmpty()) {
+						this.action(line);
+					}
+						
 				}
 			} catch (IOException e) {
 				System.out.println("Erreur lors de la manipulation de la socket");
 				e.printStackTrace();
 			}
 		}
-		this.end();
+		//this.end();
 		
+	}
+	
+	public void send(String msg) {
+		this.socketOut.println(msg);
 	}
 	
 	public void end() {
 		try {
 			if(this.socket.isConnected()) {
 				this.socket.close();
+				System.out.println("Fermeture de la socket");
 			}
 		} catch (IOException e) {
 			System.out.println("Erreur lors de fermeture de la socket");
@@ -67,5 +71,28 @@ public class Client implements Runnable {
 	@Override
 	protected void finalize() throws Throwable {
 		this.socket.close();
+	}
+	
+	public void action(String msg) {
+		switch (msg) {
+			case("end"): {
+				this.end();
+				break;
+			}
+			case("ask"): {
+				String reponse = "";
+				try {
+					reponse = clavier.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				this.send(reponse);
+				break;
+			}
+			default : {
+				System.out.println(msg);
+			}
+	
+		}
 	}
 }

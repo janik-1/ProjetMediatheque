@@ -8,7 +8,6 @@ import java.util.Scanner;
 import Mediatheque.*;
 
 public class ServiceRetour extends Service {
-	private Mediatheque m;
 	private String numLivre;
 	private int numAbonne;
 	private String nom;
@@ -16,9 +15,8 @@ public class ServiceRetour extends Service {
 	private int PORT_RETOUR;
 	
 	public ServiceRetour(Mediatheque m, Socket s) {
-		super(s);
-		this.m = m;
-		this.PORT_RETOUR = 2700;
+		super(s,m);
+		this.PORT_RETOUR = 5000;
 		this.nom = "localhost";
 	}
 
@@ -60,6 +58,12 @@ public class ServiceRetour extends Service {
 	@Override
 	public ServerSocket getServ() {
 		return socket_ret;
+	}
+
+	@Override
+	public void exec() throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -8,29 +8,43 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Mediatheque.Mediatheque;
+
 public abstract class Service implements Runnable {
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
+	private Mediatheque m;
 	
 	public abstract String serviceName();
 	public abstract int servicePort();
 	public abstract ServerSocket getServ();
 	
-	public Service(Socket socket) {
+	public Service(Socket socket, Mediatheque m) {
 		this.socket = socket;
+		this.m = m;
 	}
 	
 	@Override
 	public void run() {	
-		System.out.println("service");
+		//System.out.println("service");
 		try {
 			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 			out = new PrintWriter(this.socket.getOutputStream(), true);
+			this.exec();	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			if(!e.getMessage().equals("Connection reset")) {
+				System.err.println("Une erreur est survenue lors de la manipulation de la socket");
+				e.printStackTrace();
+			}
+		} finally {
+			try {
+				this.socket.close();
+			} catch (IOException e) {
+				System.err.println("Impossible de fermer le socket");
+				e.printStackTrace();
+			}
+	}
 	}	
 	
 	public void write(String message) {
@@ -40,6 +54,60 @@ public abstract class Service implements Runnable {
 	public String read() throws IOException {
 		return this.in.readLine();
 	}
+	
+	public void ask() {
+		this.write("ask");
+	}
+	
+	public void end() {
+		try {
+			this.out.println("end");
+			this.socket.close();
+		} catch (IOException e) {}
+	}
+	
+	public boolean isNumeric(String str) {
+		try {
+			Integer.valueOf(str);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public boolean aboExistant(int num) {
+		if (this.m.getAbonneByNum(num) == null)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean docExistant(int num) {
+		if (this.m.getDocByNum(num) == null)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean aboCheck(String str) {
+		if (this.isNumeric(str)) {
+			if(this.aboExistant(Integer.valueOf(str)));
+				return true;
+		}
+		else
+			return false;
+	}
+	
+	public boolean docNumEtExistant(String str) {
+		if (this.isNumeric(str)) {
+			if (this.docExistant(Integer.valueOf(str)));
+				return true;
+		}
+		else
+			return false;
+	}
+	
+	public abstract void exec() throws IOException;
 	
 	@Override
 	public void finalize() throws Throwable {
