@@ -1,14 +1,16 @@
 package Mediatheque;
 
+import java.time.LocalDate;
+
 public class AboReference implements Abonne {
 	private static int cptNum = 1;
 	private int NumAb;
 	private String Nom;
-	private String Date;
+	private LocalDate Date;
 	private boolean Mediatheque;
 	private boolean bannis;
 	
-	public AboReference (String Nom, String Date) {
+	public AboReference (String Nom, LocalDate Date) {
 		this.NumAb = cptNum;
 		this.Nom = Nom;
 		this.Date = Date;
@@ -23,7 +25,7 @@ public class AboReference implements Abonne {
 		return this.Nom;
 	}
 	@Override
-	public String getDate() {
+	public LocalDate getDate() {
 		return this.Date;
 	}
 	
@@ -37,6 +39,10 @@ public class AboReference implements Abonne {
 	
 	public boolean getMedia() {
 		return this.Mediatheque;
+	}
+	
+	public boolean estMajeur() {
+		return (this.Date.plusYears(16).isBefore(LocalDate.now()) );	
 	}
 
 	@Override

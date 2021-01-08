@@ -1,9 +1,12 @@
 package Mediatheque;
 
+import java.time.LocalTime;
+
 import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
 
 public abstract class DocumentAbstrait implements Document {
+	private static final long tpsRes = 2;
 	//private static int cptDoc;
 	private int numDocument;
 	private String titre;
@@ -13,6 +16,7 @@ public abstract class DocumentAbstrait implements Document {
 	private boolean estEmprunte;
 	private int reservePar;
 	private boolean estDegrade;
+	private LocalTime finReservation;
 	
 	public DocumentAbstrait(String titre) {
 		//this.numDocument= cptDoc + 1;
@@ -37,32 +41,39 @@ public abstract class DocumentAbstrait implements Document {
 	
 	@Override
 	public void reservationPour(Abonne ab) throws ReservationException {
+		if (!this.estDisponible) {
+			throw new ReservationException("Le document n'est pas disponible");
+		}
+		if (this.estReserve) {
+			throw new ReservationException("Ce document est reserve jusqu'a " + this.finReservation.withNano(0).toString());
+		}
 		if(this.estDisponible && !estReserve) {
 			this.estReserve = true;
 			this.reservePar = ab.getNumAb();
+			this.finReservation= LocalTime.now().plusHours(tpsRes);  
 		}
 	}
 	
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
-		this.setEmprunteur(ab.getNumAb());
-		this.estDisponible =false;
-		this.estReserve = false;
-		this.estEmprunte = true;
-		this.reservePar = -1;
+			if (!this.estDisponible)
+				throw new EmpruntException("Ce Document n'est pas disponible");		
+			this.setEmprunteur(ab.getNumAb());
+			this.estDisponible = false;
+			this.estReserve = false;
+			this.estEmprunte = true;
+			this.reservePar = -1;
 	}
 	
 	@Override
 	public void retour() {
-		synchronized(this) {
-			if(!this.estDisponible && this.emprunteur > 0) {
-				this.estDisponible = true;
-				this.emprunteur = -1;
-				this.estEmprunte = false;
-				this.estReserve=false;
-				this.reservePar = -1;
-			}		
-		}
+		if(!this.estDisponible && this.emprunteur > 0) {
+			this.estDisponible = true;
+			this.emprunteur = -1;
+			this.estEmprunte = false;
+			this.estReserve = false;
+			this.reservePar = -1;
+		}		
 	}
 	
 	public boolean estEmprunte() {
@@ -125,5 +136,4 @@ public abstract class DocumentAbstrait implements Document {
 	public void setdegrade(boolean etat) {
 		this.estDegrade=etat;
 	}
-	
 }

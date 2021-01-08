@@ -24,7 +24,7 @@ public class ServiceEmprunt extends Service {
 			this.write(Mediatheque.getInstance().getDocDisponibles());
 			this.write("Saisisez le numero d'abonne");
 			String refAbo = "";
-	
+	//|| !Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).verifReservation(numAb)
 			do {
 				this.write("Entrez un numero d'abonne valide");
 				this.ask();
@@ -46,7 +46,7 @@ public class ServiceEmprunt extends Service {
 			this.ask();
 			String refDoc = this.read();
 			while ( (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc)))
-					|| !Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).verifReservation(numAb))  
+					)  
 				  	 {
 				this.write("Veuillez saisir un numero de document valable et existant");
 				this.ask();
@@ -70,6 +70,7 @@ public class ServiceEmprunt extends Service {
 				this.write("Votre Emprunt a ete effectue avec succes !");
 				this.end();
 			} catch (EmpruntException e1) {
+				this.write(e1.toString());
 				e1.printStackTrace();
 				this.end();
 				try {

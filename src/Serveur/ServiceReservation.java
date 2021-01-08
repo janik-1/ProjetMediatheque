@@ -77,6 +77,7 @@ public class ServiceReservation extends Service {
 			
 			
 		} catch (ReservationException e1) {
+			this.write(e1.toString());
 			e1.printStackTrace();
 			this.end();
 			try {
