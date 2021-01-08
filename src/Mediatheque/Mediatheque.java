@@ -2,6 +2,8 @@ package Mediatheque;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
@@ -10,6 +12,7 @@ public class Mediatheque {
 	private static Mediatheque instance;
 	private List<DocumentAbstrait> catalogue;
 	private List<Abonne> ListeAbo;
+	private Timer timer;
 
 	public Mediatheque() {
 		this.catalogue = new ArrayList<DocumentAbstrait>();
@@ -107,6 +110,19 @@ public class Mediatheque {
 		this.ajoutDoc(n5);
 		this.ajoutDoc(n6);
 		this.ajoutAbonne(abo1);
+	}
+
+	public boolean estEmprunt(int numLivre) {
+		return (this.getDocByNum(numLivre).estEmprunte());
+	}
+
+	public void annulerResa(int numLivre) {
+			this.getDocByNum(numLivre).annulerResa();
+	}
+	
+	public void schedule(TimerTask task, long delay) {
+		System.out.println("Schedule task");
+		this.timer.schedule(task, delay);
 	}
 	
 	

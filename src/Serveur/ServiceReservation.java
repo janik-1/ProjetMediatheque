@@ -3,15 +3,12 @@ package Serveur;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 import java.util.Timer;
-
-import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
 import Mediatheque.*;
 
 public class ServiceReservation extends Service {
-	private int num;
+	private int numDoc;
 	private int numAbonne;
 	private int PORT_RESERVATION;
 	private ServerSocket socket_res;
@@ -44,7 +41,7 @@ public class ServiceReservation extends Service {
 				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				break;
+				return;
 			}				
 		} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));		
 		int numAb = Integer.valueOf(refAbo);
@@ -58,14 +55,27 @@ public class ServiceReservation extends Service {
 			this.ask();
 			refDoc = this.read();
 			if (refDoc.equals("end"))
-				break;
+				this.end();
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+				return;
 		} 
-		int numDoc = Integer.valueOf(refDoc);
+		this.numDoc = Integer.valueOf(refDoc);
 		System.out.println("chargement du documment " + numDoc);
 		
 		try {
 			Mediatheque.getInstance().reserver(numDoc, numAb);
 			this.write("Votre reservation a ete effectue avec succes !");
+			this.write("10 sec");
+			System.out.println("Vous avez jusqu'a 10 secondes pour venir chercher votre livre !");
+			Timer t = new Timer();
+			t.schedule(new TaskReservation(this), 10000);
+			this.write("annulation ");
+			
+			
 		} catch (ReservationException e1) {
 			e1.printStackTrace();
 			this.end();
@@ -86,36 +96,9 @@ public class ServiceReservation extends Service {
 		
 		
 	}
-
-//	public void run() {
-//		synchronized (this) {
-//			System.out.println("Voici la liste des livres disponibles : ");
-//			m.getLivresDisponibles();
-//			System.out.println("Veillez saisir le numero du livres pour le reserver :");
-//			
-//			Scanner sc = new Scanner(System.in);
-//			num = sc.nextInt();
-//	
-//			System.out.println("Veillez saisir votre numero d'abonne :");
-//			
-//			Scanner scAbonne = new Scanner(System.in);
-//			numAbonne = scAbonne.nextInt();
-//			
-//			try {
-//				m.getLivreDispo(num).reserver(m.getAbo(numAbonne));
-//			} catch (EmpruntException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			Timer t = new Timer();
-//			t.schedule(new TaskReservation(m, this), 20000);
-//			
-//			System.out.println("Vous avez jusqu'a 30 secondes pour venir chercher votre livre !");
-//		}
-//	}
 	
-	public int numLivre() {
-		return num;
+	public int numDoc() {
+		return this.numDoc;
 	}
 	
 	public int numAbo() {

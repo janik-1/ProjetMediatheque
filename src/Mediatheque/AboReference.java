@@ -6,6 +6,7 @@ public class AboReference implements Abonne {
 	private String Nom;
 	private String Date;
 	private boolean Mediatheque;
+	private boolean bannis;
 	
 	public AboReference (String Nom, String Date) {
 		this.NumAb = cptNum;

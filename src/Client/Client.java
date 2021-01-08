@@ -31,14 +31,12 @@ public class Client implements Runnable {
 			e.printStackTrace();
 		}
 		if(this.socket.isConnected()) {
-			//System.out.println("ptndzeuchiazn,jskozdijx");
 			try {
 				this.socketIn = new BufferedReader (new InputStreamReader(socket.getInputStream ( )));
 				this.socketOut = new PrintWriter (socket.getOutputStream ( ), true);
 				this.clavier = new BufferedReader(new InputStreamReader(System.in));
 				while(true) {
 					if(this.socket.isClosed()) break;
-					//System.out.println("aaaaaaaaaaaaaaaaaaaaaedzed");
 					String line = socketIn.readLine();			
 					if(line == null) continue;
 					if(!line.isEmpty()) {
@@ -51,7 +49,7 @@ public class Client implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		//this.end();
+		//this.end(); A NE PAS METTRE
 		
 	}
 	

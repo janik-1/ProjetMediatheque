@@ -26,6 +26,7 @@ public abstract class Service implements Runnable {
 	@Override
 	public void run() {	
 		//System.out.println("service");
+		
 		try {
 			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 			out = new PrintWriter(this.socket.getOutputStream(), true);

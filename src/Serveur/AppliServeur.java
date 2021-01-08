@@ -39,11 +39,11 @@ public class AppliServeur implements Runnable {
 	// qui va la traiter, et le lance
 	public void run() {
 		try {
-			Mediatheque m = new Mediatheque();
-			Mediatheque.getInstance();
-			// Mediatheque.getInstance().addTest();
-			System.out.println(m.getDocDisponibles());
-			System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
+//			Mediatheque m = new Mediatheque();
+//			Mediatheque.getInstance();
+//			// Mediatheque.getInstance().addTest();
+//			System.out.println(m.getDocDisponibles());
+			//System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());
 			while (true) {
 				if (listen_socket.getLocalPort() == PORT_RESERVATION) {
@@ -54,22 +54,22 @@ public class AppliServeur implements Runnable {
 				} else if (listen_socket.getLocalPort() == PORT_RETOUR) {
 					new Thread(new ServiceRetour(listen_socket.accept())).start();
 				}
-				break;
+				//break;
 			}
 		} catch (IOException e) {
-			try {
-				this.listen_socket.close();
-				System.out.println("erfhudcjnkz,erfuvfhedjz");
-			} catch (IOException e1) {
-			}
-			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
+//			try {
+////				this.listen_socket.close();
+////				System.out.println("erfhudcjnkz,erfuvfhedjz");
+//			} catch (IOException e1) {
+//			}
+//			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
 		}
-		try {
-			// this.finalize();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			// this.finalize();
+//		} catch (Throwable e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	// restituer les ressources --> finalize

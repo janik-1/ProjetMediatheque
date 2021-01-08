@@ -12,6 +12,7 @@ public abstract class DocumentAbstrait implements Document {
 	private boolean estReserve;
 	private boolean estEmprunte;
 	private int reservePar;
+	private boolean estDegrade;
 	
 	public DocumentAbstrait(String titre) {
 		//this.numDocument= cptDoc + 1;
@@ -21,6 +22,7 @@ public abstract class DocumentAbstrait implements Document {
 		this.estEmprunte=false;
 		this.emprunteur = -1;
 		this.reservePar = -1;
+		this.estDegrade = false;
 	}
 	
 	public DocumentAbstrait(int numDocument) {
@@ -44,7 +46,10 @@ public abstract class DocumentAbstrait implements Document {
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
 		this.setEmprunteur(ab.getNumAb());
-		this.estReserve = false;		
+		this.estDisponible =false;
+		this.estReserve = false;
+		this.estEmprunte = true;
+		this.reservePar = -1;
 	}
 	
 	@Override
@@ -54,12 +59,18 @@ public abstract class DocumentAbstrait implements Document {
 				this.estDisponible = true;
 				this.emprunteur = -1;
 				this.estEmprunte = false;
+				this.estReserve=false;
+				this.reservePar = -1;
 			}		
 		}
 	}
 	
 	public boolean estEmprunte() {
 		return this.estEmprunte;
+	}
+	
+	public boolean estReserve() {
+		return this.estReserve;
 	}
 	
 	public String getTitre() {
@@ -100,6 +111,19 @@ public abstract class DocumentAbstrait implements Document {
 	
 	public boolean verifReservation(int numa) {
 		return (this.reservePar == numa);
+	}
+	
+	public void annulerResa() {
+		this.estReserve=false;
+		this.reservePar=-1;
+	}
+	
+	public boolean estDegrade() {
+		return this.estDegrade;
+	}
+	
+	public void setdegrade(boolean etat) {
+		this.estDegrade=etat;
 	}
 	
 }

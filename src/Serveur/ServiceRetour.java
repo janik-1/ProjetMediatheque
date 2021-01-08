@@ -3,9 +3,7 @@ package Serveur;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
-import Exceptions.ReservationException;
 import Mediatheque.*;
 
 public class ServiceRetour extends Service {
@@ -22,11 +20,8 @@ public class ServiceRetour extends Service {
 	}
 	
 	public void exec() throws IOException {
-		//String line;
-		//this.m.addTest();
 		this.write("Bienvenue sur le service de retour de la mediatheque " );
-		this.write(Mediatheque.getInstance().getDocDisponibles());
-		
+		//this.write(Mediatheque.getInstance().getDocDisponibles());		
 		this.write("Tapez le numero du document que vous souhaitez retourner");
 		this.ask();
 		String refDoc = this.read();
@@ -35,8 +30,15 @@ public class ServiceRetour extends Service {
 			this.write("Veuillez saisir un numero de document valable et existant");
 			this.ask();
 			refDoc = this.read();
-			if (refDoc.equals("end"))
-				break;
+			if (refDoc.equals("end")) {
+				this.end();
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+				return;
+			}
 		} 
 		int numDoc = Integer.valueOf(refDoc);
 		System.out.println("chargement du documment " + numDoc);
@@ -62,31 +64,6 @@ public class ServiceRetour extends Service {
 			e.printStackTrace();
 		}
 	}
-
-//	@Override
-//	public void run() {		
-//		write("Veillez saisir le numero du livre a retourner :");
-//		
-//		//Scanner scLivre = new Scanner(System.in);
-//		numLivre = read();
-//		try {
-//			m.retourner(Integer.parseInt(numLivre));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-		
-		
-		/*if (m.estResa(numLivre, numAbonne) == true)
-			m.annulerResa(numLivre, numAbonne);
-		else
-			try {
-				m.getlivreEmprunter(numLivre).retour();
-			} catch (RetourException e) {
-				e.printStackTrace();
-			}*/ // Sinon l'abonne a rendu le livre normalement sans reservation
-//	}
 
 	@Override
 	public String serviceName() {
