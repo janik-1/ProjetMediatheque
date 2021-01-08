@@ -14,8 +14,8 @@ public class ServiceRetour extends Service {
 	private ServerSocket socket_ret;
 	private int PORT_RETOUR;
 	
-	public ServiceRetour(Mediatheque m, Socket s) {
-		super(s,m);
+	public ServiceRetour(Socket s) {
+		super(s);
 		this.PORT_RETOUR = 5000;
 		this.nom = "localhost";
 	}

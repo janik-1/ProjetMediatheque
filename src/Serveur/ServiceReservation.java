@@ -15,8 +15,8 @@ public class ServiceReservation extends Service {
 	private ServerSocket socket_res;
 	private String host = "localhost";
 	
-	public ServiceReservation(Mediatheque m, Socket accept) {
-		super(accept,m);
+	public ServiceReservation(Socket accept) {
+		super(accept);
 		this.PORT_RESERVATION = 3000;
 	}
 

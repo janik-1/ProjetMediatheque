@@ -7,15 +7,16 @@ import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
 
 public class Mediatheque {
-	private List<Document> catalogue;
+	private static Mediatheque instance;
+	private List<DocumentAbstrait> catalogue;
 	private List<Abonne> ListeAbo;
 
 	public Mediatheque() {
-		this.catalogue = new ArrayList<Document>();
+		this.catalogue = new ArrayList<DocumentAbstrait>();
 		this.ListeAbo = new ArrayList<Abonne>();	
 	}
 	
-	public void ajoutDoc(Document doc) {
+	public void ajoutDoc(DocumentAbstrait doc) {
 			this.catalogue.add(doc);	
 	}
 	
@@ -48,10 +49,19 @@ public class Mediatheque {
 			return true;
 	}
 	
-	public void getLivresDisponibles() {
-		for(Document d:catalogue) {
-			System.out.println(d);
+	public boolean docExistant(int num) {
+		if (this.getDocByNum(num) == null)
+			return false;
+		else
+			return true;
+	}
+	
+	public String getDocDisponibles() {
+		String s = "";
+		for(DocumentAbstrait d:catalogue) {
+			s+=d.getTitre() + System.lineSeparator();
 		}
+		return s;
 	}
 	
 	public void retourner(int numDocument) {
@@ -70,6 +80,16 @@ public class Mediatheque {
 		synchronized(this) {
 			this.getDocByNum(numDocument).empruntPar(getAbonneByNum(numAbonne));
 		}
+	}
+	
+	public static Mediatheque getInstance() {
+		if (instance == null)
+			instance = new Mediatheque();
+		return instance;
+	}
+	
+	public List<DocumentAbstrait> getCatalogue(){
+		return this.catalogue;
 	}
 	
 	public void addTest() {

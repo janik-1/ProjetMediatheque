@@ -12,15 +12,14 @@ import Exceptions.EmpruntException;
 import Mediatheque.*;
 
 public class ServiceEmprunt extends Service {
-	private Mediatheque m;
 	private int numLivre;
 	private int PORT_EMPRUNT;
 	private String nom;
 	private ServerSocket socket_emp;
 	private int numAbonne;
 	
-	public ServiceEmprunt(Mediatheque m, Socket accept) {
-		super(accept,m);
+	public ServiceEmprunt(Socket accept) {
+		super(accept);
 		this.PORT_EMPRUNT = 4000;
 		this.nom = "localhost";
 	}
@@ -28,35 +27,98 @@ public class ServiceEmprunt extends Service {
 	@Override
 	public void exec() throws IOException {
 		String line;
-		
-		this.write("Bienvenue sur le service d'emprunt de la bibliothèque " );
-		
+		//this.m.addTest();
+		this.write("Bienvenue sur le service d'emprunt de la mediatheque " );
+		this.write(Mediatheque.getInstance().getDocDisponibles());
 		this.write("Saisisez le numero d'abonne");
-		this.ask();
-		line = this.read();
-		while (!this.aboCheck(line) ) {
-			this.write("Veuillez saisir un numero d'abonne valable et existant");
+//		if(Mediatheque.getInstance().aboExistant(1))
+//			this.write("yes1");
+//		this.write("no1");
+//		if(Mediatheque.getInstance().aboExistant(2))
+//			this.write("yes2");
+//		this.write("no2");
+		
+//		for(Document d: Mediatheque.getInstance().getCatalogue()) {
+//			this.write(Integer.toString(d.numero()));
+//		}
+//		
+//		if(Mediatheque.getInstance().docExistant(1))
+//			this.write("yes1");
+//		if(Mediatheque.getInstance().docExistant(2))
+//			this.write("yes2");
+//		if(Mediatheque.getInstance().docExistant(3))
+//			this.write("yes3");
+//		if(Mediatheque.getInstance().docExistant(4))
+//			this.write("yes4");
+//		if(Mediatheque.getInstance().docExistant(5))
+//			this.write("yes5");
+//		if(Mediatheque.getInstance().docExistant(6))
+//			this.write("yes6");
+//		if(Mediatheque.getInstance().docExistant(7))
+//			this.write("yes7");
+//		if(Mediatheque.getInstance().docExistant(8))
+//			this.write("yes8");
+		String refAbo = "";
+
+		do {
+			this.write("Pour finir, merci d'indiquer votre code d'indentification");
 			this.ask();
-			line = this.read();
-		}
-		int numAb = Integer.valueOf(line);
+			refAbo = this.read();
+			if (refAbo.equals("end")) {
+				this.end();
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+				
+		} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));
+			////!Mediatheque.getInstance().aboExistant(Integer.valueOf(refAboStr)));
+		
+		
+//		line = this.read();
+//		while (!this.aboCheck(line) ) {
+//			this.write("Veuillez saisir un numero d'abonne valable et existant");
+//			this.ask();
+//			line = this.read();
+//		}
+		int numAb = Integer.valueOf(refAbo);
 		System.out.println("Connection de l'abonne " + numAb);
 		this.write("Tapez le numero du document que vous souhaitez enpruntez");
 		this.ask();
-		line = this.read();
-		while(!this.docNumEtExistant(line)) {
+		String refDoc = this.read();
+		while (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))) {
 			this.write("Veuillez saisir un numero de document valable et existant");
 			this.ask();
-			line = this.read();
-		}
+			refDoc = this.read();
+			if (refDoc.equals("end"))
+				break;
+		} 
 		
-		int numDoc = Integer.valueOf(line);
+//		line = this.read();
+//		while(!this.docNumEtExistant(line)) {
+//			this.write("Veuillez saisir un numero de document valable et existant");
+//			this.ask();
+//			line = this.read();
+//		}
+		
+		int numDoc = Integer.valueOf(refDoc);
 		System.out.println("chargement du documment " + numDoc);
-
+		
+		//this.write(Integer.toString(Mediatheque.getInstance().getAbonneByNum(1).getNumAb()));
 		try {
-			this.m.emprunter(numDoc, numAb);
+			Mediatheque.getInstance().emprunter(numDoc, numAb);
+			this.write("Votre Emprunt a ete effectuer avec succes !");
 		} catch (EmpruntException e1) {
 			e1.printStackTrace();
+			this.end();
+			try {
+				this.finalize();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
 		}
 	
 	

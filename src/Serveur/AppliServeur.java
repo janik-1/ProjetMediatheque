@@ -8,11 +8,13 @@ import Mediatheque.*;
 public class AppliServeur implements Runnable {
 	private ServerSocket listen_socket;
 	private final static int PORT_RESERVATION = 3000, PORT_EMPRUNT = 4000, PORT_RETOUR = 5000;
-	private Mediatheque m;
 	
-	public AppliServeur(int port, Mediatheque m) throws IOException {
+	public AppliServeur(int port) throws IOException {
 		listen_socket = new ServerSocket(port);
-		this.m=m;
+//		Mediatheque m = new Mediatheque();
+//		m.addTest();
+//		m.getLivresDisponibles();
+//		this.m=m;
 	}
 	
 //	public void connection(String[] args) {
@@ -37,17 +39,22 @@ public class AppliServeur implements Runnable {
 	// qui va la traiter, et le lance
 	public void run() {
 		try {
+			Mediatheque m = new Mediatheque();
+			Mediatheque.getInstance();
+			Mediatheque.getInstance().addTest();
+			System.out.println(m.getDocDisponibles());
+			System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());
 			while (true) {
 				if (listen_socket.getLocalPort()==PORT_RESERVATION) {
-					new Thread(new ServiceReservation(m, listen_socket.accept())).start();
+					new Thread(new ServiceReservation(listen_socket.accept())).start();
 				}
 				else if (listen_socket.getLocalPort()==PORT_EMPRUNT) {
 					//System.out.println("zaazza");
-					new Thread(new ServiceEmprunt(m, listen_socket.accept())).start();
+					new Thread(new ServiceEmprunt(listen_socket.accept())).start();
 				}
 				else if (listen_socket.getLocalPort()==PORT_RETOUR) {
-					new Thread(new ServiceRetour(m, listen_socket.accept())).start();
+					new Thread(new ServiceRetour(listen_socket.accept())).start();
 				}
 				break;
 			}

@@ -4,7 +4,8 @@ import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
 
 public abstract class DocumentAbstrait implements Document {
-	private static int numDocument = 0;
+	//private static int cptDoc;
+	private int numDocument;
 	private String titre;
 	private int emprunteur;
 	private boolean estDisponible;
@@ -12,7 +13,7 @@ public abstract class DocumentAbstrait implements Document {
 	private Abonne reservePar;
 	
 	public DocumentAbstrait(String titre) {
-		DocumentAbstrait.numDocument= numDocument + 1;
+		//this.numDocument= cptDoc + 1;
 		this.titre = titre;
 		this.estDisponible = true;
 		this.estReserve = false;
@@ -21,13 +22,13 @@ public abstract class DocumentAbstrait implements Document {
 	}
 	
 	public DocumentAbstrait(int numDocument) {
-		DocumentAbstrait.numDocument = numDocument;
+		this.numDocument = numDocument;
 		this.estDisponible = true;
 	}
 	
 	@Override
 	public int numero() {
-		return DocumentAbstrait.numDocument;
+		return this.numDocument;
 	}
 	
 	@Override
@@ -56,6 +57,14 @@ public abstract class DocumentAbstrait implements Document {
 	
 	public String getTitre() {
 		return this.titre;
+	}
+	
+	public void setNum(int num) {
+		this.numDocument = num;
+	}
+	
+	public int getNum() {
+		return this.numDocument;
 	}
 	
 	public void setEmprunteur(int numAb) {

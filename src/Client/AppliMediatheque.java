@@ -2,7 +2,7 @@ package Client;
 
 import java.util.Scanner;
 
-public class AppliBibliotheque {
+public class AppliMediatheque {
 
 	private static final Integer PORT_RESERVER = 3000;
 	private static final Integer PORT_EMPRUNT = 4000;

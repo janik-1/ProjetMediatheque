@@ -14,15 +14,13 @@ public abstract class Service implements Runnable {
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
-	private Mediatheque m;
 	
 	public abstract String serviceName();
 	public abstract int servicePort();
 	public abstract ServerSocket getServ();
 	
-	public Service(Socket socket, Mediatheque m) {
+	public Service(Socket socket) {
 		this.socket = socket;
-		this.m = m;
 	}
 	
 	@Override
@@ -76,14 +74,14 @@ public abstract class Service implements Runnable {
 	}
 	
 	public boolean aboExistant(int num) {
-		if (this.m.getAbonneByNum(num) == null)
+		if (Mediatheque.getInstance().getAbonneByNum(num) == null)
 			return false;
 		else
 			return true;
 	}
 	
 	public boolean docExistant(int num) {
-		if (this.m.getDocByNum(num) == null)
+		if (Mediatheque.getInstance().getDocByNum(num) == null)
 			return false;
 		else
 			return true;
@@ -91,7 +89,7 @@ public abstract class Service implements Runnable {
 	
 	public boolean aboCheck(String str) {
 		if (this.isNumeric(str)) {
-			if(this.aboExistant(Integer.valueOf(str)));
+			if(Mediatheque.getInstance().aboExistant(Integer.valueOf(str)));
 				return true;
 		}
 		else
