@@ -9,10 +9,10 @@ public class Appli {
 //		Mediatheque m = new Mediatheque();
 //		m.addTest();
 //		m.getLivresDisponibles();
-		int Port;
+		//int Port;
 		//Scanner s = new Scanner();
 		//Port=s.nextLine();
-		Port=4000;
+		//Port=4000;
 		
 		Mediatheque m = new Mediatheque();
 		Mediatheque.getInstance();

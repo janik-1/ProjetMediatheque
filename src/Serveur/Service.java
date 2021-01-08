@@ -31,18 +31,18 @@ public abstract class Service implements Runnable {
 			out = new PrintWriter(this.socket.getOutputStream(), true);
 			this.exec();	
 		} catch (IOException e) {
-			if(!e.getMessage().equals("Connection reset")) {
-				System.err.println("Une erreur est survenue lors de la manipulation de la socket");
-				e.printStackTrace();
-			}
-		} finally {
-			try {
-				this.socket.close();
-			} catch (IOException e) {
-				System.err.println("Impossible de fermer le socket");
-				e.printStackTrace();
-			}
-	}
+			System.err.println("Une erreur est survenue lors de la manipulation de la socket");
+			e.printStackTrace();
+			
+		}
+//		finally {
+//			try {
+//				this.socket.close();
+//			} catch (IOException e) {
+//				System.err.println("Impossible de fermer le socket");
+//				e.printStackTrace();
+//			}
+	//}
 	}	
 	
 	public void write(String message) {

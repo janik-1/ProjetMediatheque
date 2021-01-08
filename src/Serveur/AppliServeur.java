@@ -8,7 +8,7 @@ import Mediatheque.*;
 public class AppliServeur implements Runnable {
 	private ServerSocket listen_socket;
 	private final static int PORT_RESERVATION = 3000, PORT_EMPRUNT = 4000, PORT_RETOUR = 5000;
-	
+
 	public AppliServeur(int port) throws IOException {
 		listen_socket = new ServerSocket(port);
 //		Mediatheque m = new Mediatheque();
@@ -16,7 +16,7 @@ public class AppliServeur implements Runnable {
 //		m.getLivresDisponibles();
 //		this.m=m;
 	}
-	
+
 //	public void connection(String[] args) {
 //		Mediatheque m = new Mediatheque();
 //		try {
@@ -33,7 +33,7 @@ public class AppliServeur implements Runnable {
 //			System.err.println("Pb lors de la creation du service : " +  e);			
 //		}
 //	}
-	
+
 	// Le serveur ecoute et accepte les connexions.
 	// pour chaque connexion, il cree un ServiceInversion,
 	// qui va la traiter, et le lance
@@ -41,19 +41,17 @@ public class AppliServeur implements Runnable {
 		try {
 			Mediatheque m = new Mediatheque();
 			Mediatheque.getInstance();
-			//Mediatheque.getInstance().addTest();
+			// Mediatheque.getInstance().addTest();
 			System.out.println(m.getDocDisponibles());
 			System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());
 			while (true) {
-				if (listen_socket.getLocalPort()==PORT_RESERVATION) {
+				if (listen_socket.getLocalPort() == PORT_RESERVATION) {
 					new Thread(new ServiceReservation(listen_socket.accept())).start();
-				}
-				else if (listen_socket.getLocalPort()==PORT_EMPRUNT) {
-					//System.out.println("zaazza");
+				} else if (listen_socket.getLocalPort() == PORT_EMPRUNT) {
+					// System.out.println("zaazza");
 					new Thread(new ServiceEmprunt(listen_socket.accept())).start();
-				}
-				else if (listen_socket.getLocalPort()==PORT_RETOUR) {
+				} else if (listen_socket.getLocalPort() == PORT_RETOUR) {
 					new Thread(new ServiceRetour(listen_socket.accept())).start();
 				}
 				break;
@@ -67,13 +65,13 @@ public class AppliServeur implements Runnable {
 			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
 		}
 		try {
-			this.finalize();
+			// this.finalize();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	// restituer les ressources --> finalize
 	protected void finalize() throws Throwable {
 		try {

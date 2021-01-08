@@ -26,109 +26,120 @@ public class ServiceEmprunt extends Service {
 	
 	@Override
 	public void exec() throws IOException {
-		//String line;
-		//this.m.addTest();
-		this.write("Bienvenue sur le service d'emprunt de la mediatheque " );
-		this.write(Mediatheque.getInstance().getDocDisponibles());
-		this.write("Saisisez le numero d'abonne");
-//		if(Mediatheque.getInstance().aboExistant(1))
-//			this.write("yes1");
-//		this.write("no1");
-//		if(Mediatheque.getInstance().aboExistant(2))
-//			this.write("yes2");
-//		this.write("no2");
-		
-		for(Document d: Mediatheque.getInstance().getCatalogue()) {
-			this.write(Integer.toString(d.numero()));
-		}
-		
-		if(Mediatheque.getInstance().docExistant(1))
-			this.write("yes1");
-		if(Mediatheque.getInstance().docExistant(2))
-			this.write("yes2");
-		if(Mediatheque.getInstance().docExistant(3))
-			this.write("yes3");
-		if(Mediatheque.getInstance().docExistant(4))
-			this.write("yes4");
-		if(Mediatheque.getInstance().docExistant(5))
-			this.write("yes5");
-		if(Mediatheque.getInstance().docExistant(6))
-			this.write("yes6");
-		if(Mediatheque.getInstance().docExistant(7))
-			this.write("yes7");
-		if(Mediatheque.getInstance().docExistant(8))
-			this.write("yes8");
-		String refAbo = "";
-
-		do {
-			this.write("Pour finir, merci d'indiquer votre code d'indentification");
+		//while (true) {
+			//String line;
+			//this.m.addTest();
+			this.write("Bienvenue sur le service d'emprunt de la mediatheque " );
+			this.write(Mediatheque.getInstance().getDocDisponibles());
+			this.write("Saisisez le numero d'abonne");
+	//		if(Mediatheque.getInstance().aboExistant(1))
+	//			this.write("yes1");
+	//		this.write("no1");
+	//		if(Mediatheque.getInstance().aboExistant(2))
+	//			this.write("yes2");
+	//		this.write("no2");
+			
+//			for(Document d: Mediatheque.getInstance().getCatalogue()) {
+//				this.write(Integer.toString(d.numero()));
+//			}
+//			
+//			if(Mediatheque.getInstance().docExistant(1))
+//				this.write("yes1");
+//			if(Mediatheque.getInstance().docExistant(2))
+//				this.write("yes2");
+//			if(Mediatheque.getInstance().docExistant(3))
+//				this.write("yes3");
+//			if(Mediatheque.getInstance().docExistant(4))
+//				this.write("yes4");
+//			if(Mediatheque.getInstance().docExistant(5))
+//				this.write("yes5");
+//			if(Mediatheque.getInstance().docExistant(6))
+//				this.write("yes6");
+//			if(Mediatheque.getInstance().docExistant(7))
+//				this.write("yes7");
+//			if(Mediatheque.getInstance().docExistant(8))
+//				this.write("yes8");
+			String refAbo = "";
+	
+			do {
+				this.write("Pour finir, merci d'indiquer votre code d'indentification");
+				this.ask();
+				refAbo = this.read();
+				if (refAbo.equals("end")) {
+					this.end();
+					try {
+						this.finalize();
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+					
+			} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));
+				////!Mediatheque.getInstance().aboExistant(Integer.valueOf(refAboStr)));
+//|| !Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).verifReservation(numAb)
+	//		line = this.read();
+	//		while (!this.aboCheck(line) ) {
+	//			this.write("Veuillez saisir un numero d'abonne valable et existant");
+	//			this.ask();
+	//			line = this.read();
+	//		}
+			int numAb = Integer.valueOf(refAbo);
+			System.out.println("Connection de l'abonne " + numAb);
+			this.write("Tapez le numero du document que vous souhaitez enpruntez");
 			this.ask();
-			refAbo = this.read();
-			if (refAbo.equals("end")) {
+			String refDoc = this.read();
+			while ( (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))))  
+				  	 {
+				this.write("Veuillez saisir un numero de document valable et existant");
+				this.ask();
+				refDoc = this.read();
+				if (refDoc.equals("end")) {
+					this.end();
+					try {
+						this.finalize();
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}  
+			
+	//		line = this.read();
+	//		while(!this.docNumEtExistant(line)) {
+	//			this.write("Veuillez saisir un numero de document valable et existant");
+	//			this.ask();
+	//			line = this.read();
+	//		}
+			
+			int numDoc = Integer.valueOf(refDoc);
+			System.out.println("chargement du documment " + numDoc);
+			
+			//this.write(Integer.toString(Mediatheque.getInstance().getAbonneByNum(1).getNumAb()));
+			try {
+				Mediatheque.getInstance().emprunter(numDoc, numAb);
+				this.write("Votre Emprunt a ete effectue avec succes !");
+				//this.end();
+			} catch (EmpruntException e1) {
+				e1.printStackTrace();
 				this.end();
 				try {
 					this.finalize();
 				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				break;
 			}
-				
-		} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));
-			////!Mediatheque.getInstance().aboExistant(Integer.valueOf(refAboStr)));
 		
 		
-//		line = this.read();
-//		while (!this.aboCheck(line) ) {
-//			this.write("Veuillez saisir un numero d'abonne valable et existant");
-//			this.ask();
-//			line = this.read();
-//		}
-		int numAb = Integer.valueOf(refAbo);
-		System.out.println("Connection de l'abonne " + numAb);
-		this.write("Tapez le numero du document que vous souhaitez enpruntez");
-		this.ask();
-		String refDoc = this.read();
-		while (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))) {
-			this.write("Veuillez saisir un numero de document valable et existant");
-			this.ask();
-			refDoc = this.read();
-			if (refDoc.equals("end"))
-				break;
-		} 
-		
-//		line = this.read();
-//		while(!this.docNumEtExistant(line)) {
-//			this.write("Veuillez saisir un numero de document valable et existant");
-//			this.ask();
-//			line = this.read();
-//		}
-		
-		int numDoc = Integer.valueOf(refDoc);
-		System.out.println("chargement du documment " + numDoc);
-		
-		//this.write(Integer.toString(Mediatheque.getInstance().getAbonneByNum(1).getNumAb()));
-		try {
-			Mediatheque.getInstance().emprunter(numDoc, numAb);
-			this.write("Votre Emprunt a ete effectue avec succes !");
-		} catch (EmpruntException e1) {
-			e1.printStackTrace();
-			this.end();
-			try {
-				this.finalize();
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-		}
-	
-	
-		this.end();
-		try {
-			this.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		
+			//this.end();
+	//		try {
+	//			this.finalize();
+	//		} catch (Throwable e) {
+	//			e.printStackTrace();
+	//		}
+	//				
+		//}
+
 	}
 	
 

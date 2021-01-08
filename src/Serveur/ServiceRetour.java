@@ -31,7 +31,7 @@ public class ServiceRetour extends Service {
 		this.ask();
 		String refDoc = this.read();
 		while (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))
-				|| Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).estEmprunte()) {
+				|| !Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).estEmprunte()) {
 			this.write("Veuillez saisir un numero de document valable et existant");
 			this.ask();
 			refDoc = this.read();

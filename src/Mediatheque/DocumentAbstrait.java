@@ -11,15 +11,16 @@ public abstract class DocumentAbstrait implements Document {
 	private boolean estDisponible;
 	private boolean estReserve;
 	private boolean estEmprunte;
-	private Abonne reservePar;
+	private int reservePar;
 	
 	public DocumentAbstrait(String titre) {
 		//this.numDocument= cptDoc + 1;
 		this.titre = titre;
 		this.estDisponible = true;
 		this.estReserve = false;
+		this.estEmprunte=false;
 		this.emprunteur = -1;
-		this.reservePar = null;
+		this.reservePar = -1;
 	}
 	
 	public DocumentAbstrait(int numDocument) {
@@ -36,7 +37,7 @@ public abstract class DocumentAbstrait implements Document {
 	public void reservationPour(Abonne ab) throws ReservationException {
 		if(this.estDisponible && !estReserve) {
 			this.estReserve = true;
-			this.reservePar = ab;
+			this.reservePar = ab.getNumAb();
 		}
 	}
 	
@@ -93,8 +94,12 @@ public abstract class DocumentAbstrait implements Document {
 		this.estDisponible=false;
 	}
 	
-	public Abonne getReservation() {
+	public int getReservation() {
 		return this.reservePar;
+	}
+	
+	public boolean verifReservation(int numa) {
+		return (this.reservePar == numa);
 	}
 	
 }
