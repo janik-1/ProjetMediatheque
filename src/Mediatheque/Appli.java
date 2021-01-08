@@ -1,6 +1,5 @@
 package Mediatheque;
 
-import java.util.Scanner;
 import Serveur.*;
 
 public class Appli {

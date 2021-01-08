@@ -3,8 +3,6 @@ package Serveur;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import Mediatheque.*;
-
 public class AppliServeur implements Runnable {
 	private ServerSocket listen_socket;
 	private final static int PORT_RESERVATION = 3000, PORT_EMPRUNT = 4000, PORT_RETOUR = 5000;
@@ -39,11 +37,6 @@ public class AppliServeur implements Runnable {
 	// qui va la traiter, et le lance
 	public void run() {
 		try {
-//			Mediatheque m = new Mediatheque();
-//			Mediatheque.getInstance();
-//			// Mediatheque.getInstance().addTest();
-//			System.out.println(m.getDocDisponibles());
-			//System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());
 			while (true) {
 				if (listen_socket.getLocalPort() == PORT_RESERVATION) {
@@ -58,14 +51,13 @@ public class AppliServeur implements Runnable {
 			}
 		} catch (IOException e) {
 //			try {
-////				this.listen_socket.close();
-////				System.out.println("erfhudcjnkz,erfuvfhedjz");
+//				this.listen_socket.close();
 //			} catch (IOException e1) {
 //			}
 //			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
 		}
 //		try {
-//			// this.finalize();
+//			this.finalize();
 //		} catch (Throwable e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

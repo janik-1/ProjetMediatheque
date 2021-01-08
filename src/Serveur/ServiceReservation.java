@@ -45,7 +45,6 @@ public class ServiceReservation extends Service {
 			}				
 		} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));		
 		int numAb = Integer.valueOf(refAbo);
-		System.out.println("Connection de l'abonne " + numAb);
 		
 		this.write("Tapez le numero du document que vous souhaitez reserver");
 		this.ask();
@@ -64,16 +63,14 @@ public class ServiceReservation extends Service {
 				return;
 		} 
 		this.numDoc = Integer.valueOf(refDoc);
-		System.out.println("chargement du documment " + numDoc);
 		
 		try {
 			Mediatheque.getInstance().reserver(numDoc, numAb);
 			this.write("Votre reservation a ete effectue avec succes !");
-			this.write("10 sec");
-			System.out.println("Vous avez jusqu'a 10 secondes pour venir chercher votre livre !");
+			this.write("Vous avez 10 sec pour emprunter");
 			Timer t = new Timer();
 			t.schedule(new TaskReservation(this), 10000);
-			this.write("annulation ");
+			//this.write("annulation ");
 			
 			
 		} catch (ReservationException e1) {

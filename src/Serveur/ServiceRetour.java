@@ -7,8 +7,6 @@ import java.net.Socket;
 import Mediatheque.*;
 
 public class ServiceRetour extends Service {
-	private String numLivre;
-	private int numAbonne;
 	private String nom;
 	private ServerSocket socket_ret;
 	private int PORT_RETOUR;
