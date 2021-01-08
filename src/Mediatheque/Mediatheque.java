@@ -24,9 +24,9 @@ public class Mediatheque {
 		this.ListeAbo.add(abo);
 	}
 	
-	public Document getDocByNum(int numDocument) {	
+	public DocumentAbstrait getDocByNum(int numDocument) {	
 		synchronized(catalogue) {
-			for (Document d:catalogue) {
+			for (DocumentAbstrait d:catalogue) {
 				if (d.numero()==numDocument)
 					return d;
 			}

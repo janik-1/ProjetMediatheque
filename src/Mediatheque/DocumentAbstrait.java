@@ -10,6 +10,7 @@ public abstract class DocumentAbstrait implements Document {
 	private int emprunteur;
 	private boolean estDisponible;
 	private boolean estReserve;
+	private boolean estEmprunte;
 	private Abonne reservePar;
 	
 	public DocumentAbstrait(String titre) {
@@ -51,8 +52,13 @@ public abstract class DocumentAbstrait implements Document {
 			if(!this.estDisponible && this.emprunteur > 0) {
 				this.estDisponible = true;
 				this.emprunteur = -1;
+				this.estEmprunte = false;
 			}		
 		}
+	}
+	
+	public boolean estEmprunte() {
+		return this.estEmprunte;
 	}
 	
 	public String getTitre() {

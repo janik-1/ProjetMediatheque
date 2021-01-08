@@ -14,8 +14,14 @@ public class Appli {
 		//Port=s.nextLine();
 		Port=4000;
 		
-		new Thread(new AppliServeur(Port)).start();
-		System.out.println("Serveur lance sur le port " + Port);
+		Mediatheque m = new Mediatheque();
+		Mediatheque.getInstance();
+		Mediatheque.getInstance().addTest();
+		
+		new Thread(new AppliServeur(PORT_RESERVATION)).start();
+		new Thread(new AppliServeur(PORT_EMPRUNT)).start();
+		new Thread(new AppliServeur(PORT_RETOUR)).start();
+		System.out.println("Serveur lance sur le port " + PORT_RETOUR + " " + PORT_EMPRUNT + " " + PORT_RESERVATION );
 	}
 
 }

@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.Timer;
 
+import Exceptions.EmpruntException;
+import Exceptions.ReservationException;
 import Mediatheque.*;
 
 public class ServiceReservation extends Service {
@@ -18,6 +20,71 @@ public class ServiceReservation extends Service {
 	public ServiceReservation(Socket accept) {
 		super(accept);
 		this.PORT_RESERVATION = 3000;
+	}
+	
+	
+	@Override
+	public void exec() throws IOException {
+		//String line;
+		//this.m.addTest();
+		this.write("Bienvenue sur le service de reservation de la mediatheque " );
+		this.write(Mediatheque.getInstance().getDocDisponibles());
+		this.write("Saisisez le numero d'abonne");
+		
+		String refAbo = "";
+		do {
+			if (refAbo!="")
+				this.write("Veuillez saisir un numero d'abonne valable");
+			this.ask();
+			refAbo = this.read();
+			if (refAbo.equals("end")) {
+				this.end();
+				try {
+					this.finalize();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+				break;
+			}				
+		} while (!this.isNumeric(refAbo) || !Mediatheque.getInstance().aboExistant(Integer.valueOf(refAbo)));		
+		int numAb = Integer.valueOf(refAbo);
+		System.out.println("Connection de l'abonne " + numAb);
+		
+		this.write("Tapez le numero du document que vous souhaitez reserver");
+		this.ask();
+		String refDoc = this.read();
+		while (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))) {
+			this.write("Veuillez saisir un numero de document valable et existant");
+			this.ask();
+			refDoc = this.read();
+			if (refDoc.equals("end"))
+				break;
+		} 
+		int numDoc = Integer.valueOf(refDoc);
+		System.out.println("chargement du documment " + numDoc);
+		
+		try {
+			Mediatheque.getInstance().reserver(numDoc, numAb);
+			this.write("Votre reservation a ete effectue avec succes !");
+		} catch (ReservationException e1) {
+			e1.printStackTrace();
+			this.end();
+			try {
+				this.finalize();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+	
+	
+		this.end();
+		try {
+			this.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 //	public void run() {
@@ -78,10 +145,5 @@ public class ServiceReservation extends Service {
 		return socket_res;
 	}
 
-	@Override
-	public void exec() throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

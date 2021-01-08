@@ -26,7 +26,7 @@ public class ServiceEmprunt extends Service {
 	
 	@Override
 	public void exec() throws IOException {
-		String line;
+		//String line;
 		//this.m.addTest();
 		this.write("Bienvenue sur le service d'emprunt de la mediatheque " );
 		this.write(Mediatheque.getInstance().getDocDisponibles());
@@ -38,26 +38,26 @@ public class ServiceEmprunt extends Service {
 //			this.write("yes2");
 //		this.write("no2");
 		
-//		for(Document d: Mediatheque.getInstance().getCatalogue()) {
-//			this.write(Integer.toString(d.numero()));
-//		}
-//		
-//		if(Mediatheque.getInstance().docExistant(1))
-//			this.write("yes1");
-//		if(Mediatheque.getInstance().docExistant(2))
-//			this.write("yes2");
-//		if(Mediatheque.getInstance().docExistant(3))
-//			this.write("yes3");
-//		if(Mediatheque.getInstance().docExistant(4))
-//			this.write("yes4");
-//		if(Mediatheque.getInstance().docExistant(5))
-//			this.write("yes5");
-//		if(Mediatheque.getInstance().docExistant(6))
-//			this.write("yes6");
-//		if(Mediatheque.getInstance().docExistant(7))
-//			this.write("yes7");
-//		if(Mediatheque.getInstance().docExistant(8))
-//			this.write("yes8");
+		for(Document d: Mediatheque.getInstance().getCatalogue()) {
+			this.write(Integer.toString(d.numero()));
+		}
+		
+		if(Mediatheque.getInstance().docExistant(1))
+			this.write("yes1");
+		if(Mediatheque.getInstance().docExistant(2))
+			this.write("yes2");
+		if(Mediatheque.getInstance().docExistant(3))
+			this.write("yes3");
+		if(Mediatheque.getInstance().docExistant(4))
+			this.write("yes4");
+		if(Mediatheque.getInstance().docExistant(5))
+			this.write("yes5");
+		if(Mediatheque.getInstance().docExistant(6))
+			this.write("yes6");
+		if(Mediatheque.getInstance().docExistant(7))
+			this.write("yes7");
+		if(Mediatheque.getInstance().docExistant(8))
+			this.write("yes8");
 		String refAbo = "";
 
 		do {
@@ -110,7 +110,7 @@ public class ServiceEmprunt extends Service {
 		//this.write(Integer.toString(Mediatheque.getInstance().getAbonneByNum(1).getNumAb()));
 		try {
 			Mediatheque.getInstance().emprunter(numDoc, numAb);
-			this.write("Votre Emprunt a ete effectuer avec succes !");
+			this.write("Votre Emprunt a ete effectue avec succes !");
 		} catch (EmpruntException e1) {
 			e1.printStackTrace();
 			this.end();

@@ -41,7 +41,7 @@ public class AppliServeur implements Runnable {
 		try {
 			Mediatheque m = new Mediatheque();
 			Mediatheque.getInstance();
-			Mediatheque.getInstance().addTest();
+			//Mediatheque.getInstance().addTest();
 			System.out.println(m.getDocDisponibles());
 			System.out.println(Mediatheque.getInstance().getAbonneByNum(1).getNumAb());
 			System.err.println("Lancement du serveur au port " + this.listen_socket.getLocalPort());

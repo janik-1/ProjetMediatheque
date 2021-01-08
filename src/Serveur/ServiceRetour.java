@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import Exceptions.ReservationException;
 import Mediatheque.*;
 
 public class ServiceRetour extends Service {
@@ -18,6 +19,48 @@ public class ServiceRetour extends Service {
 		super(s);
 		this.PORT_RETOUR = 5000;
 		this.nom = "localhost";
+	}
+	
+	public void exec() throws IOException {
+		//String line;
+		//this.m.addTest();
+		this.write("Bienvenue sur le service de retour de la mediatheque " );
+		this.write(Mediatheque.getInstance().getDocDisponibles());
+		
+		this.write("Tapez le numero du document que vous souhaitez retourner");
+		this.ask();
+		String refDoc = this.read();
+		while (!this.isNumeric(refDoc) || !Mediatheque.getInstance().docExistant(Integer.valueOf(refDoc))
+				|| Mediatheque.getInstance().getDocByNum(Integer.valueOf(refDoc)).estEmprunte()) {
+			this.write("Veuillez saisir un numero de document valable et existant");
+			this.ask();
+			refDoc = this.read();
+			if (refDoc.equals("end"))
+				break;
+		} 
+		int numDoc = Integer.valueOf(refDoc);
+		System.out.println("chargement du documment " + numDoc);
+		
+		try {
+			Mediatheque.getInstance().retourner(numDoc);;
+			this.write("Votre retour a ete effectuer avec succes !");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			this.end();
+			try {
+				this.finalize();
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+	
+	
+		this.end();
+		try {
+			this.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 
 //	@Override
@@ -60,10 +103,5 @@ public class ServiceRetour extends Service {
 		return socket_ret;
 	}
 
-	@Override
-	public void exec() throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
