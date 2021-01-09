@@ -62,8 +62,8 @@ public abstract class DocumentAbstrait implements Document {
 				throw new EmpruntException("Ce Document n'est pas disponible");		
 			if(ab.getbannis() && !ab.deban()) {
 				throw new EmpruntException("Désolé, vous êtes bannis");
-			}				
-			this.setEmprunteur(ab.getNumAb());
+			}
+			this.emprunteur = ab.getNumAb();
 			this.estDisponible = false;
 			this.estReserve = false;
 			this.estEmprunte = true;
@@ -72,7 +72,7 @@ public abstract class DocumentAbstrait implements Document {
 	}
 	
 	@Override
-	public void retour() {
+	public void retour(){
 		if(!this.estDisponible && this.emprunteur > 0) {
 			this.estDisponible = true;
 			this.emprunteur = -1;
@@ -147,7 +147,7 @@ public abstract class DocumentAbstrait implements Document {
 		return ((this.DateEmprunt.plusDays(RetardMax).isAfter(LocalDate.now())));
 	}
 	
-	public boolean bannir() {
+	public boolean checkBannir() {
 		return(this.estUnGrosRetard() || this.estDegrade);
 	}
 	

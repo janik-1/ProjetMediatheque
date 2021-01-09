@@ -3,7 +3,7 @@ package Mediatheque;
 import java.time.LocalDate;
 
 public class AboReference implements Abonne {
-	private static int cptNum = 1;
+	private static int cptNum = 0;
 	private static final int nbMoisBan = 1;
 	private int NumAb;
 	private String Nom;
@@ -13,7 +13,7 @@ public class AboReference implements Abonne {
 	private LocalDate DateBanFin;
 	
 	public AboReference (String Nom, LocalDate Date) {
-		this.NumAb = cptNum;
+		this.NumAb = cptNum + 1;
 		this.Nom = Nom;
 		this.Date = Date;
 		this.bannis =false;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Exceptions.RetourException;
 import Mediatheque.*;
 
 public class ServiceRetour extends Service {
@@ -38,12 +39,13 @@ public class ServiceRetour extends Service {
 			}
 		} 
 		int numDoc = Integer.valueOf(refDoc);
-		System.out.println("chargement du documment " + numDoc);
+		//System.out.println("chargement du documment " + numDoc);
 		
 		try {
 			Mediatheque.getInstance().retourner(numDoc);;
-			this.write("Votre retour a ete effectuer avec succes !");
-		} catch (Exception e1) {
+			this.write("Votre retour a ete effectue avec succes !");
+		} catch (RetourException e1) {
+			this.write(e1.toString());
 			e1.printStackTrace();
 			this.end();
 			try {

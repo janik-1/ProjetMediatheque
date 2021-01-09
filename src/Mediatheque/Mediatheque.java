@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import Exceptions.EmpruntException;
 import Exceptions.ReservationException;
+import Exceptions.RetourException;
 
 public class Mediatheque {
 	private static Mediatheque instance;
@@ -68,13 +69,14 @@ public class Mediatheque {
 		return s;
 	}
 	
-	public void retourner(int numDocument) {
+	public void retourner(int numDocument) throws RetourException{
 		synchronized(this) {
+			if (!this.getDocByNum(numDocument).estEmprunte())
+				throw new RetourException("Ce document a deja ete rendu");
+			if (this.getDocByNum(numDocument).checkBannir())
+				this.getAbonneByNum(this.getDocByNum(numDocument).getNumEmprunteur()).bannir();
 			this.getDocByNum(numDocument).retour();
 		}
-//		if(this.getDocByNum(numDocument).bannir()) {
-//			this.bannir(this.getDocByNum(numDocument).getNumEmprunteur());
-//		}
 	}
 	
 	public void bannir(int numAbo) {
@@ -114,7 +116,6 @@ public class Mediatheque {
 		DVD n6 = new DVD("n6",5);
 		n6.setdegrade(true);
 		AboReference abo1 = new AboReference("Aoba", localDate);
-		//abo1.bannir();
 		this.ajoutDoc(n1);
 		this.ajoutDoc(n2);
 		this.ajoutDoc(n3);
