@@ -9,28 +9,7 @@ public class AppliServeur implements Runnable {
 
 	public AppliServeur(int port) throws IOException {
 		listen_socket = new ServerSocket(port);
-//		Mediatheque m = new Mediatheque();
-//		m.addTest();
-//		m.getLivresDisponibles();
-//		this.m=m;
 	}
-
-//	public void connection(String[] args) {
-//		Mediatheque m = new Mediatheque();
-//		try {
-//			ServerSocket socket_res = new ServerSocket(PORT_RESERVATION);
-//			ServerSocket socket_emp = new ServerSocket(PORT_EMPRUNT);
-//			ServerSocket socket_ret = new ServerSocket(PORT_RETOUR);
-//			new Thread(new ServiceLauncher(socket_emp, new ServiceEmprunt(m))).start();
-//			new Thread(new ServiceLauncher(socket_res, new ServiceReservation(m))).start();
-//			new Thread(new ServiceLauncher(socket_ret, new ServiceRetour(m))).start();
-//			
-//			System.out.println("ok");
-//			
-//		} catch (IOException e) {
-//			System.err.println("Pb lors de la creation du service : " +  e);			
-//		}
-//	}
 
 	// Le serveur ecoute et accepte les connexions.
 	// pour chaque connexion, il cree un ServiceInversion,
@@ -42,24 +21,21 @@ public class AppliServeur implements Runnable {
 				if (listen_socket.getLocalPort() == PORT_RESERVATION) {
 					new Thread(new ServiceReservation(listen_socket.accept())).start();
 				} else if (listen_socket.getLocalPort() == PORT_EMPRUNT) {
-					// System.out.println("zaazza");
 					new Thread(new ServiceEmprunt(listen_socket.accept())).start();
 				} else if (listen_socket.getLocalPort() == PORT_RETOUR) {
 					new Thread(new ServiceRetour(listen_socket.accept())).start();
 				}
-				//break;
 			}
 		} catch (IOException e) {
-//			try {
-//				this.listen_socket.close();
-//			} catch (IOException e1) {
-//			}
-//			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
+			try {
+				this.listen_socket.close();
+			} catch (IOException e1) {
+			}
+			System.err.println("Arrêt du serveur au port " + this.listen_socket.getLocalPort());
 		}
 //		try {
 //			this.finalize();
 //		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 	}

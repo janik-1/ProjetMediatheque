@@ -72,6 +72,13 @@ public class Mediatheque {
 		synchronized(this) {
 			this.getDocByNum(numDocument).retour();
 		}
+//		if(this.getDocByNum(numDocument).bannir()) {
+//			this.bannir(this.getDocByNum(numDocument).getNumEmprunteur());
+//		}
+	}
+	
+	public void bannir(int numAbo) {
+		this.getAbonneByNum(numAbo).bannir();
 	}
 	
 	public void reserver(int numDocument, int numAbonne) throws ReservationException {
@@ -97,19 +104,17 @@ public class Mediatheque {
 	}
 	
 	public void addTest() {
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 		String date = "2016-08-16";
 		LocalDate localDate = LocalDate.parse(date);
-		//System.out.println("France: " + df.format(date));
-//		formatter = formatter.withLocale(Locale.US );  // Locale specifies human language for translating, and cultural norms for lowercase/uppercase and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
-//		LocalDate date = LocalDate.parse("2010-NOV-12", formatter);
 		DVD n1 = new DVD("n1",17);
 		DVD n2 = new DVD("n2",12);
 		DVD n3 = new DVD("n3",19);
 		DVD n4 = new DVD("n4",20);
 		DVD n5 = new DVD("n5",10);
 		DVD n6 = new DVD("n6",5);
+		n6.setdegrade(true);
 		AboReference abo1 = new AboReference("Aoba", localDate);
+		//abo1.bannir();
 		this.ajoutDoc(n1);
 		this.ajoutDoc(n2);
 		this.ajoutDoc(n3);

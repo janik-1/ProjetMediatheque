@@ -25,8 +25,6 @@ public abstract class Service implements Runnable {
 	
 	@Override
 	public void run() {	
-		//System.out.println("service");
-		
 		try {
 			in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 			out = new PrintWriter(this.socket.getOutputStream(), true);
@@ -116,7 +114,7 @@ public abstract class Service implements Runnable {
 			e.printStackTrace();
 		}
 		
-		System.err.println("La connexion du socket " + socket.getRemoteSocketAddress().toString() + " s'est terminee.");
+		System.out.println("La connexion du socket " + socket.getRemoteSocketAddress().toString() + " s'est terminee.");
 	}
 	
 	public Socket getSocket() {

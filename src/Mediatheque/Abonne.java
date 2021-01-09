@@ -7,6 +7,7 @@ public interface Abonne {
 	public String getNom();
 	public LocalDate getDate();
 	public boolean estMajeur();
-	public void reserver(Document d);
-	
+	public boolean getbannis();
+	public void bannir();
+	public boolean deban();
 }

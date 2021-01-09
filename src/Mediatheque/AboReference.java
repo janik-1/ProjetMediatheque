@@ -4,16 +4,19 @@ import java.time.LocalDate;
 
 public class AboReference implements Abonne {
 	private static int cptNum = 1;
+	private static final int nbMoisBan = 1;
 	private int NumAb;
 	private String Nom;
 	private LocalDate Date;
 	private boolean Mediatheque;
 	private boolean bannis;
+	private LocalDate DateBanFin;
 	
 	public AboReference (String Nom, LocalDate Date) {
 		this.NumAb = cptNum;
 		this.Nom = Nom;
 		this.Date = Date;
+		this.bannis =false;
 	}
 	
 	@Override
@@ -45,10 +48,24 @@ public class AboReference implements Abonne {
 		return (this.Date.plusYears(16).isBefore(LocalDate.now()) );	
 	}
 
-	@Override
-	public void reserver(Document d) {
-		//d.reservationPour(this);
+	public boolean getbannis() {
+		return this.bannis;
 	}
+	
+	public void bannir() {
+		this.bannis=true;
+		this.DateBanFin = LocalDate.now().plusMonths(AboReference.nbMoisBan);
+	}
+	
+	public boolean deban() {
+		if(this.DateBanFin.isBefore(LocalDate.now())) {
+			this.bannis = false;
+			return true;
+		}
+		return false;
+	}
+
+	
 	
 
 }

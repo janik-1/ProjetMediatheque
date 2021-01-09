@@ -12,11 +12,9 @@ public class AppliMediatheque {
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("Que voulez vous faire ?");
-		System.out.println("- Taper 1 pour acceder au service de reservation");
-		System.out.println("- Taper 2 pour acceder au service d'emprunt");
-		System.out.println("- Taper 3 pour acceder au service de retour");
-		System.out.print("> ");
+		System.out.println("Taper 1 pour reserver");
+		System.out.println("Taper 2 pour emprunter");
+		System.out.println("Taper 3 pour retourner");
 		
 		Integer i = sc.nextInt();
 
@@ -27,7 +25,7 @@ public class AppliMediatheque {
 		} else if (i == 3) {
 			new Thread(new Client("localhost", PORT_RETOUR)).start();
 		}else {
-			System.err.println("Ce numéro ne correspond a aucune action");
+			System.out.println("Ce numéro ne correspond a aucune action");
 		}
 	}
 

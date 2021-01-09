@@ -16,7 +16,6 @@ public class DVD extends DocumentAbstrait{
 	
 	@Override
 	public void empruntPar(Abonne ab) throws EmpruntException {
-		System.out.println("aaz");
 		if (this.adulte && !ab.estMajeur())
 			throw new EmpruntException("vous n’avez pas l’âge pour emprunter ce DVD");	
 		super.empruntPar(ab);		

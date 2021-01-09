@@ -21,11 +21,12 @@ public class ServiceEmprunt extends Service {
 	@Override
 	public void exec() throws IOException {
 			this.write("Bienvenue sur le service d'emprunt de la mediatheque " );
-			this.write(Mediatheque.getInstance().getDocDisponibles());
+			//this.write(Mediatheque.getInstance().getDocDisponibles());
 			this.write("Saisisez le numero d'abonne");
 			String refAbo = "";
 			do {
-				this.write("Entrez un numero d'abonne valide");
+				if (refAbo!="")
+					this.write("Entrez un numero d'abonne valide");
 				this.ask();
 				refAbo = this.read();
 				if (refAbo.equals("end")) {
